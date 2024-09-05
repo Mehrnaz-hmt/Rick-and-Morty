@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { EyeIcon } from "@heroicons/react/24/outline";
 
 
-function CharacterList({characters}) {
+export default function CharacterList({characters}) {
 
   return (
     <div className="characters-list">
@@ -13,7 +13,7 @@ function CharacterList({characters}) {
   );
 }
 
-export default CharacterList;
+ 
 
 function Character({ item }) {
   return (
