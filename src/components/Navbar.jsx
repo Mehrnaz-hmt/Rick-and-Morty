@@ -16,7 +16,7 @@ function Navbar({ children }) {
 export default Navbar;
 
 function Logo() {
-  return <div className="navbar__logo">LOGO 🎬</div>;
+  return <div className="navbar__logo">Rick And Morty 🎬</div>;
 }
 
 function Search() {

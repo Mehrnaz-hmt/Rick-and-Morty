@@ -3,15 +3,19 @@ import Navbar, { SearchResult } from "./components/Navbar";
 import CharacterList from "./components/CharacterList";
 import CharacterDetail from "./components/CharacterDetail";
 import { allcharacters } from "../data/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const [characters, setCharacters] = useState([]);
 
-  // NOT to fetch in this way: We shouldn't write fetch in render logic
-  fetch("https://rickandmortyapi.com/api/character")
-    .then((res) => res.json())
-    .then((data) => console.log(data));
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("https://rickandmortyapi.com/api/character")
+       const data = await  res.json();
+        setCharacters(data.results.slice(0,5))
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="app">
