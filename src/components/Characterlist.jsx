@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { EyeIcon } from "@heroicons/react/24/outline";
+import Loading from "./Loading";
 
-
-export default function CharacterList({characters}) {
+export default function CharacterList({ characters, isLoading }) {
+  
+  if (isLoading)
+    return (
+      <div className="character-list">
+        <Loading />
+      </div>
+    );
 
   return (
     <div className="characters-list">
@@ -12,8 +19,6 @@ export default function CharacterList({characters}) {
     </div>
   );
 }
-
- 
 
 function Character({ item }) {
   return (
@@ -46,5 +51,3 @@ function CharacterInfo({ item }) {
     </div>
   );
 }
-
-
