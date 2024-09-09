@@ -5,7 +5,6 @@ function Navbar({ children }) {
     <>
       <nav className="navbar">
         <Logo />
-        <Search />
         {children}
         <Favorites />
       </nav>
@@ -19,15 +18,23 @@ function Logo() {
   return <div className="navbar__logo">Rick And Morty 🎬</div>;
 }
 
-function Search() {
-  return <input type="text" className="text-field" placeholder="search..." />;
+export function Search({ query, setQuery }) {
+  return (
+    <input
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      type="text"
+      className="text-field"
+      placeholder="search..."
+    />
+  );
 }
 
-export function SearchResult({numOfResult}) {
+export function SearchResult({ numOfResult }) {
   return <div className="navbar__result">Found {numOfResult} characters</div>;
 }
 
- function Favorites({ numOfResult }) {
+function Favorites({ numOfResult }) {
   return (
     <button className="heart">
       <HeartIcon className="icon"></HeartIcon>
