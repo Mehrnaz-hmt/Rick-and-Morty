@@ -2,9 +2,7 @@ import "./App.css";
 import Navbar, { SearchResult } from "./components/Navbar";
 import CharacterList from "./components/CharacterList";
 import CharacterDetail from "./components/CharacterDetail";
-import { allcharacters } from "../data/data";
 import { useEffect, useState } from "react";
-import Loading from "./components/Loading";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Search } from "./components/Navbar";
@@ -13,6 +11,12 @@ export default function App() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+
+  // handlers
+  const handleSelectCharacter = (id) => {
+    setSelectedId(prevId => prevId === id ? null : id);
+  };
 
   //axios ==> async await
   useEffect(() => {
@@ -102,8 +106,13 @@ export default function App() {
         <SearchResult numOfResult={characters.length} />
       </Navbar>
       <Main characters={characters}>
-        <CharacterList characters={characters} isLoading={isLoading} />
-        <CharacterDetail />
+        <CharacterList
+          characters={characters}
+          isLoading={isLoading}
+          onSelectedCharacter={handleSelectCharacter}
+          selectedId={selectedId}
+        />
+        <CharacterDetail setIsLoading={setIsLoading} selectedId={selectedId} />
       </Main>
     </div>
   );
