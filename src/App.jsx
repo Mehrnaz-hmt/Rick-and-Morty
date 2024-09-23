@@ -2,21 +2,32 @@ import "./App.css";
 import Navbar, { SearchResult } from "./components/Navbar";
 import CharacterList from "./components/CharacterList";
 import CharacterDetail from "./components/CharacterDetail";
-import { useEffect, useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Search } from "./components/Navbar";
+import { Favourites } from "./components/Navbar";
 
 export default function App() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [favourites, setFavourites] = useState([]);
 
   // handlers
   const handleSelectCharacter = (id) => {
-    setSelectedId(prevId => prevId === id ? null : id);
+    setSelectedId((prevId) => (prevId === id ? null : id));
   };
+
+  const handleAddFavourite = (char) => {
+      // setFavourites([...favourites,char]);  //Solution 1:
+   setFavourites((prevFav) => [...prevFav,char]) //Solution 2:
+  };
+
+  const isAddToFavourites = favourites
+    .map((fav) => fav.id)
+    .includes(selectedId);
 
   //axios ==> async await
   useEffect(() => {
@@ -104,6 +115,7 @@ export default function App() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult numOfResult={characters.length} />
+        <Favourites numOfFavourites={favourites.length} />
       </Navbar>
       <Main characters={characters}>
         <CharacterList
@@ -112,7 +124,12 @@ export default function App() {
           onSelectedCharacter={handleSelectCharacter}
           selectedId={selectedId}
         />
-        <CharacterDetail setIsLoading={setIsLoading} selectedId={selectedId} />
+        <CharacterDetail
+          onAddFavourite={handleAddFavourite}
+          setIsLoading={setIsLoading}
+          selectedId={selectedId}
+          isAddToFavourites={isAddToFavourites}
+        />
       </Main>
     </div>
   );
