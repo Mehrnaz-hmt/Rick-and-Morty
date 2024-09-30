@@ -32,15 +32,37 @@ export default function App() {
 
   //axios ==> async await
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     async function fetchData() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character/?name=${query}`
+          `https://rickandmortyapi.com/api/character/?name=${query}`,
+          { signal }
         );
         setCharacters(data.results.slice(0, 5));
       } catch (error) {
-        toast.error(error.response.data.error);
+        console.log(error.name);
+        //fetch ==> error.name === "AbortError"
+        //axios ==> axios.isCancel()
+
+        // if(error.name !== "AbortError") {
+        //   setCharacters([]);
+        //   toast.error(error.response.data.error);
+        // }
+
+        // if (axios.isCancel()) {
+        //   console.log("canell successfully!");
+        // } else {
+        //   setCharacters([]);
+        //   toast.error(error.response.data.error);
+        // }
+
+        if (!axios.isCancel()) {
+          setCharacters([]);
+          toast.error(error.response.data.error);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -52,12 +74,16 @@ export default function App() {
     // }
 
     fetchData();
+
+    return () => {
+      //controller
+      controller.abort();
+    };
   }, [query]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCount((c) => c + 1);
-    }, 1000);
+    const interval = setInterval(() => setCount((c) => c + 1), 1000);
+
     return () => {
       clearInterval(interval);
     };
