@@ -14,7 +14,7 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [favourites, setFavourites] = useState([]);
-  const [count, setCount] = useState(0);
+ // const [count, setCount] = useState(0);
 
   // handlers
   const handleSelectCharacter = (id) => {
@@ -81,13 +81,13 @@ export default function App() {
     };
   }, [query]);
 
-  useEffect(() => {
-    const interval = setInterval(() => setCount((c) => c + 1), 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => setCount((c) => c + 1), 1000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [count]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [count]);
 
   //Axios ... try ... catch ...
   // useEffect(() => {
@@ -147,7 +147,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <p style={{ color: "white" }}>{count}</p>
+      {/* <p style={{ color: "white" }}>{count}</p> */}
       <Toaster />
       <Navbar>
         <Search query={query} setQuery={setQuery} />
