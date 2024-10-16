@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Search } from "./components/Navbar";
 import { Favourites } from "./components/Navbar";
+import Modal from "./components/Modal";
 
 export default function App() {
   const [characters, setCharacters] = useState([]);
@@ -14,7 +15,7 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [favourites, setFavourites] = useState([]);
- // const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
 
   // handlers
   const handleSelectCharacter = (id) => {
@@ -24,6 +25,10 @@ export default function App() {
   const handleAddFavourite = (char) => {
     // setFavourites([...favourites,char]);  //Solution 1:
     setFavourites((prevFav) => [...prevFav, char]); //Solution 2:
+  };
+
+  const handleDeleteFavourite = (id) => {
+    setFavourites((prevFav) => prevFav.filter((fav) => fav.id !== id));
   };
 
   const isAddToFavourites = favourites
@@ -149,10 +154,10 @@ export default function App() {
     <div className="app">
       {/* <p style={{ color: "white" }}>{count}</p> */}
       <Toaster />
-      <Navbar>
+      <Navbar >
         <Search query={query} setQuery={setQuery} />
         <SearchResult numOfResult={characters.length} />
-        <Favourites numOfFavourites={favourites.length} />
+        <Favourites favourites={favourites} onDeleteFavourite={handleDeleteFavourite}/>
       </Navbar>
       <Main characters={characters}>
         <CharacterList
