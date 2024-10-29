@@ -14,7 +14,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  const [favourites, setFavourites] = useState([]);
+  const [favourites, setFavourites] = useState(() => JSON.parse(localStorage.getItem("FAVOURITES")) || []);
   // const [count, setCount] = useState(0);
 
   // handlers
@@ -85,6 +85,10 @@ export default function App() {
       controller.abort();
     };
   }, [query]);
+
+useEffect(() =>{
+  localStorage.setItem("FAVOURITES",JSON.stringify(favourites))
+},[favourites])
 
   // useEffect(() => {
   //   const interval = setInterval(() => setCount((c) => c + 1), 1000);
