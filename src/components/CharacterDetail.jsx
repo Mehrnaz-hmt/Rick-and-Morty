@@ -3,11 +3,14 @@ import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import Loader from "./Loader";
 import toast, { Toaster } from "react-hot-toast";
+import useCharacter from "../hooks/useCharacter";
 
-function CharacterDetail({ selectedId, onAddFavourite, isAddToFavourites }) {
+
+function CharacterDetail({ selectedId, onAddFavourite, isAddToFavourites  }) {
   const [character, setCharacter] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [episodes, setEpisodes] = useState([]);
+ 
 
   useEffect(() => {
     async function fetchData() {
@@ -34,7 +37,8 @@ function CharacterDetail({ selectedId, onAddFavourite, isAddToFavourites }) {
     }
 
     if (selectedId) fetchData();
-  }, [selectedId]);
+  }, [selectedId])
+
 
   if (isLoading) {
     return (
