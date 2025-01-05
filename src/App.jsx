@@ -9,13 +9,14 @@ import { Search } from "./components/Navbar";
 import { Favourites } from "./components/Navbar";
 import Modal from "./components/Modal";
 import useCharacter from "./hooks/useCharacter";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 export default function App() {
-
   const [query, setQuery] = useState("");
-  const {isLoading , characters} =  useCharacter(query);
+  const { isLoading, characters } = useCharacter(query);
   const [selectedId, setSelectedId] = useState(null);
-  const [favourites, setFavourites] = useState(() => JSON.parse(localStorage.getItem("FAVOURITES")) || []);
+  const [favourites, setFavourites] = useLocalStorage("favourites",[]);
+  // const [favourites, setFavourites] = useState(() => JSON.parse(localStorage.getItem("FAVOURITES")) || []);
 
   // handlers
   const handleSelectCharacter = (id) => {
@@ -37,18 +38,20 @@ export default function App() {
 
   //axios ==> async await
 
-
-useEffect(() =>{
-  localStorage.setItem("FAVOURITES",JSON.stringify(favourites))
-},[favourites])
+  // useEffect(() =>{
+  //   localStorage.setItem("FAVOURITES",JSON.stringify(favourites))
+  // },[favourites])
 
   return (
     <div className="app">
       <Toaster />
-      <Navbar >
+      <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult numOfResult={characters.length} />
-        <Favourites favourites={favourites} onDeleteFavourite={handleDeleteFavourite}/>
+        <Favourites
+          favourites={favourites}
+          onDeleteFavourite={handleDeleteFavourite}
+        />
       </Navbar>
       <Main characters={characters}>
         <CharacterList
