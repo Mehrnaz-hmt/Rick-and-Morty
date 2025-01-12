@@ -18,6 +18,7 @@ export default function App() {
   const [favourites, setFavourites] = useLocalStorage("favourites",[]);
   // const [favourites, setFavourites] = useState(() => JSON.parse(localStorage.getItem("FAVOURITES")) || []);
 
+  
   // handlers
   const handleSelectCharacter = (id) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
